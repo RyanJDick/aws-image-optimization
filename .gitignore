@@ -131,3 +131,11 @@ dist
 
 # AWS cdk
 cdk.out/
+
+# Build artifacts
+# (Typescript compilation results and prebuild sharp installation.)
+bin/**.js
+bin/**.d.ts
+lib/**.js
+lib/**.d.ts
+functions/image-processing/package*.json
