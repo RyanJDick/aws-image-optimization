@@ -7,8 +7,8 @@ const Sharp = require('sharp');
 
 const S3 = new AWS.S3({ signatureVersion: 'v4', httpOptions: { agent: new https.Agent({ keepAlive: true }) } });
 const S3_ORIGINAL_IMAGE_BUCKET = process.env.originalImageBucketName;
-const S3_TRANSFORMED_IMAGE_BUCKET = process.env.sharpImageBucketName;
-const TRANSFORMED_IMAGE_CACHE_TTL = process.env.sharpImageCacheTTL;
+const S3_TRANSFORMED_IMAGE_BUCKET = process.env.transformedImageBucketName;
+const TRANSFORMED_IMAGE_CACHE_TTL = process.env.transformedImageCacheTTL;
 const SECRET_KEY = process.env.secretKey;
 const LOG_TIMING = process.env.logTiming;
 
@@ -115,7 +115,7 @@ exports.handler = async (event) => {
                 },
             }, function (err, data) { }).promise();
         } catch (error) {
-            sendError(500, 'Could not upload transformed image to S3.', error);
+            return sendError(500, 'Could not upload transformed image to S3.', error);
         }
     }
 
