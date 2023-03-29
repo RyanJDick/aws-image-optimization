@@ -9,7 +9,7 @@ function handler(event) {
     if (request.querystring) {
         Object.keys(request.querystring).forEach(operation => {
             switch (operation.toLowerCase()) {
-                case 'format': 
+                case 'format':
                     var SUPPORTED_FORMATS = ['auto', 'jpeg', 'webp', 'avif', 'png', 'svg', 'gif'];
                     if (request.querystring[operation]['value'] && SUPPORTED_FORMATS.includes(request.querystring[operation]['value'].toLowerCase())) {
                         var format = request.querystring[operation]['value'].toLowerCase(); // normalize to lowercase
@@ -20,7 +20,7 @@ function handler(event) {
                                     format = 'avif';
                                 } else if (request.headers['accept'].value.includes("webp")) {
                                     format = 'webp';
-                                } 
+                                }
                             }
                         }
                         normalizedOperations['format'] = format;
@@ -30,7 +30,7 @@ function handler(event) {
                     if (request.querystring[operation]['value']) {
                         var width = parseInt(request.querystring[operation]['value']);
                         if (!isNaN(width) && (width > 0)) {
-                            // you can protect the Lambda function by setting a max value, e.g. if (width > 4000) width = 4000;
+                            if (width > 4096) width = 4096;
                             normalizedOperations['width'] = width.toString();
                         }
                     }
@@ -39,7 +39,7 @@ function handler(event) {
                     if (request.querystring[operation]['value']) {
                         var height = parseInt(request.querystring[operation]['value']);
                         if (!isNaN(height) && (height > 0)) {
-                            // you can protect the Lambda function by setting a max value, e.g. if (height > 4000) height = 4000;
+                            if (height > 4096) height = 4096;
                             normalizedOperations['height'] = height.toString();
                         }
                     }
@@ -60,19 +60,19 @@ function handler(event) {
         if (Object.keys(normalizedOperations).length > 0) {
             // put them in order
             var normalizedOperationsArray = [];
-            if (normalizedOperations.format) normalizedOperationsArray.push('format='+normalizedOperations.format);
-            if (normalizedOperations.quality) normalizedOperationsArray.push('quality='+normalizedOperations.quality);
-            if (normalizedOperations.width) normalizedOperationsArray.push('width='+normalizedOperations.width);
-            if (normalizedOperations.height) normalizedOperationsArray.push('height='+normalizedOperations.height);
-            request.uri = originalImagePath + '/' + normalizedOperationsArray.join(',');     
+            if (normalizedOperations.format) normalizedOperationsArray.push('format=' + normalizedOperations.format);
+            if (normalizedOperations.quality) normalizedOperationsArray.push('quality=' + normalizedOperations.quality);
+            if (normalizedOperations.width) normalizedOperationsArray.push('width=' + normalizedOperations.width);
+            if (normalizedOperations.height) normalizedOperationsArray.push('height=' + normalizedOperations.height);
+            request.uri = originalImagePath + '/' + normalizedOperationsArray.join(',');
         } else {
             // If no valid operation is found, flag the request with /original path suffix
-            request.uri = originalImagePath + '/original';     
+            request.uri = originalImagePath + '/original';
         }
 
     } else {
         // If no query strings are found, flag the request with /original path suffix
-        request.uri = originalImagePath + '/original'; 
+        request.uri = originalImagePath + '/original';
     }
     // remove query strings
     request['querystring'] = {};
