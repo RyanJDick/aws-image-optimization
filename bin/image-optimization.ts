@@ -4,7 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import { DefaultImageOptimizationStack } from '../lib/default_image_optimization_stack';
 
 
-// Region to Origin Shield mapping based on latency.
+// AWS Region to Origin Shield Region mapping based on latency.
 // To be updated when new Regional Edge Caches are added to CloudFront.
 const ORIGIN_SHIELD_MAPPING = new Map([
   ['af-south-1', 'eu-west-2'],
@@ -30,12 +30,13 @@ const ORIGIN_SHIELD_MAPPING = new Map([
   ['us-west-2', 'us-west-2'],
 ]);
 
-const CLOUDFRONT_ORIGIN_SHIELD_REGION = ORIGIN_SHIELD_MAPPING.get(process.env.AWS_REGION ?? "");
+const app = new cdk.App();
+
+const CLOUDFRONT_ORIGIN_SHIELD_REGION = app.node.tryGetContext("CLOUDFRONT_ORIGIN_SHIELD_REGION");
 if (CLOUDFRONT_ORIGIN_SHIELD_REGION == undefined) {
-  throw new Error("CLOUDFRONT_ORIGIN_SHIELD_REGION is undefined.");
+  throw new Error("CLOUDFRONT_ORIGIN_SHIELD_REGION is undefined. (See ORIGIN_SHIELD_MAPPING for suggestions.)");
 }
 
-const app = new cdk.App();
 new DefaultImageOptimizationStack(app, 'StagingStack', {
   cloudFrontOriginShieldRegion: CLOUDFRONT_ORIGIN_SHIELD_REGION,
 });
