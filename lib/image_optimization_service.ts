@@ -196,7 +196,7 @@ export class ImageOptimizationService extends Construct {
     var imageDeliveryCacheBehaviorConfig: ImageDeliveryCacheBehaviorConfig = {
       origin: imageOrigin,
       viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-      cachePolicy: new cloudfront.CachePolicy(this, `image-cache-policy-${this.node.addr}`, {
+      cachePolicy: new cloudfront.CachePolicy(this, `ImageCachePolicy`, {
         defaultTtl: Duration.hours(24),
         maxTtl: Duration.days(365),
         minTtl: Duration.seconds(0),
@@ -211,9 +211,8 @@ export class ImageOptimizationService extends Construct {
     if (props.cloudFrontCorsEnabled) {
       // Create a custom response headers policy. CORS allowed for all origins.
       const imageResponseHeadersPolicy = new cloudfront.ResponseHeadersPolicy(
-        this, 'ResponseHeadersPolicy',
+        this, 'ImageResponsePolicy',
         {
-          responseHeadersPolicyName: 'ImageResponsePolicy',
           corsBehavior: {
             accessControlAllowCredentials: false,
             accessControlAllowHeaders: ['*'],

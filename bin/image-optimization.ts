@@ -36,10 +36,10 @@ if (CLOUDFRONT_ORIGIN_SHIELD_REGION == undefined) {
 }
 
 const app = new cdk.App();
-new DefaultImageOptimizationStack(app, 'StagingImageOptimizationStack', {
+new DefaultImageOptimizationStack(app, 'StagingStack', {
   cloudFrontOriginShieldRegion: CLOUDFRONT_ORIGIN_SHIELD_REGION,
 });
 
-new DefaultImageOptimizationStack(app, 'ProductionImageOptimizationStack', {
+new DefaultImageOptimizationStack(app, 'ProductionStack', {
   cloudFrontOriginShieldRegion: CLOUDFRONT_ORIGIN_SHIELD_REGION,
 });

@@ -19,7 +19,7 @@ export class DefaultImageOptimizationStack extends Stack {
   constructor(scope: Construct, id: string, props: DefaultImageOptimizationStackProps) {
     super(scope, id, props);
 
-    new ImageOptimizationService(this, 'ImageOptimizationService', {
+    new ImageOptimizationService(this, 'ImageOptimization', {
       storeTransformedImages: true,
       cloudFrontOriginShieldRegion: props.cloudFrontOriginShieldRegion,
       cloudFrontCorsEnabled: true,
