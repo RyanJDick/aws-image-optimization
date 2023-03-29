@@ -86,7 +86,6 @@ export class ImageOptimizationService extends Construct {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         encryption: s3.BucketEncryption.S3_MANAGED,
         enforceSSL: true,
-        autoDeleteObjects: true, // TODO: remove this.
       });
       new s3deploy.BucketDeployment(this, 'DeploySampleImages', {
         sources: [s3deploy.Source.asset('./image-sample')],
