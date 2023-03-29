@@ -90,7 +90,7 @@ exports.handler = async (event) => {
                 },
             }, function (err, data) { }).promise();
         } catch (error) {
-            sendError('APPLICATION ERROR', 'Could not upload transformed image to S3', error);
+            sendError(500, 'Could not upload transformed image to S3.', error);
         }
     }
     timingLog = timingLog + parseInt(performance.now() - startTime) + ' ';
