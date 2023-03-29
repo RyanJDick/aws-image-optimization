@@ -23,14 +23,14 @@ AWS CDK is an open-source software development framework used to define cloud in
 git clone https://github.com/aws-samples/image-optimization.git 
 cd image-optimization
 npm install
-cdk bootstrap
+npx cdk bootstrap
 npm run build
-cdk deploy
+npx cdk deploy -c CLOUDFRONT_ORIGIN_SHIELD_REGION='us-east-2'
 ```
 
-When the deployment is completed within minutes, the CDK output will include the domain name of the CloudFront distribution created for image optimization (ImageDeliveryDomain =YOURDISTRIBUTION.cloudfront.net). The stack will include an S3 bucket with sample images (OriginalImagesS3Bucket = YourS3BucketWithOriginalImagesGeneratedName). To verify that it is working properly, test the following optimized image URL https:// YOURDISTRIBUTION.cloudfront.net/images/rio/1.jpeg?format=auto&width=300.
+When the deployment is completed within minutes, the CDK output will include the domain name of the CloudFront distribution created for image optimization (ImageDeliveryDomain =YOURDISTRIBUTION.cloudfront.net). The stack will include an S3 bucket with sample images (OriginalImagesS3Bucket = YourS3BucketWithOriginalImagesGeneratedName). To verify that it is working properly, test the following optimized image URL https://YOURDISTRIBUTION.cloudfront.net/images/rio/1.jpeg?format=auto&width=300.
 
-Note that when deploying in production, it’s recommended to use an existing S3 bucket where your images are stored. To do that, deploy the stack in the same region of your S3 bucket, using the following parameter: cdk deploy -c S3_IMAGE_BUCKET_NAME=’YOUR_S3_BUCKET_NAME’. The solution allows you to configure other parameters such as whether you want to store transformed images in S3 (STORE_TRANSFORMED_IMAGES), the duration after which transformed images are automatically removed from S3 (STORE_TRANSFORMED_IMAGES), and the Cache-Control header used with transformed images (S3_TRANSFORMED_IMAGE_CACHE_TTL).
+There are several parameters for customizing the deployment that are not currently exposed. Check the `ImageOptimizationServiceProps` type for more details.
 
 ## Clean up resources
 
