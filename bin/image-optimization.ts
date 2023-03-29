@@ -37,10 +37,10 @@ if (CLOUDFRONT_ORIGIN_SHIELD_REGION == undefined) {
   throw new Error("CLOUDFRONT_ORIGIN_SHIELD_REGION is undefined. (See ORIGIN_SHIELD_MAPPING for suggestions.)");
 }
 
-new DefaultImageOptimizationStack(app, 'StagingStack', {
+new DefaultImageOptimizationStack(app, 'Staging', {
   cloudFrontOriginShieldRegion: CLOUDFRONT_ORIGIN_SHIELD_REGION,
 });
 
-new DefaultImageOptimizationStack(app, 'ProductionStack', {
+new DefaultImageOptimizationStack(app, 'Production', {
   cloudFrontOriginShieldRegion: CLOUDFRONT_ORIGIN_SHIELD_REGION,
 });
