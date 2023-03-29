@@ -30,7 +30,7 @@ function handler(event) {
                     if (request.querystring[operation]['value']) {
                         var width = parseInt(request.querystring[operation]['value']);
                         if (!isNaN(width) && (width > 0)) {
-                            // you can protect the Lambda function by setting a max value, e.g. if (width > 4000) width = 4000;
+                            if (width > 4096) width = 4096;
                             normalizedOperations['width'] = width.toString();
                         }
                     }
@@ -39,7 +39,7 @@ function handler(event) {
                     if (request.querystring[operation]['value']) {
                         var height = parseInt(request.querystring[operation]['value']);
                         if (!isNaN(height) && (height > 0)) {
-                            // you can protect the Lambda function by setting a max value, e.g. if (height > 4000) height = 4000;
+                            if (height > 4096) height = 4096;
                             normalizedOperations['height'] = height.toString();
                         }
                     }
